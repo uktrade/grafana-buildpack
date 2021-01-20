@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+declare -r BUILD_PATH="${1}"
+declare -r CACHE_PATH="${2}"
+declare -r DEPS_PATH="${3}"
+declare -r INDEX="${4}"
+
+declare -r BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+
+source "${BUILDPACK_DIR}/envrc"
+
+download_garfana(){
+    declare -r DOWNLOAD_FILE="${CACHE_PATH}/${GRAFANA_FILE_NAME}"
+
+    if [ -f "${DOWNLOAD_FILE}" ]
+    then 
+        status "Using Cached Grafana ${VERSION}"
+
+    else 
+        status "Downloading Grafana ${VERSION}"
+        rm -f "${CACHE_PATH}/*"
+        curl "${GRAFANA_DOWNLOAD_URL}" --output "${DOWNLOAD_FILE}" --silent
+    fi
+}
+
+main()
+{
+  download_garfana
+}
+
+main

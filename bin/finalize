@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+declare -r BUILD_PATH="${1}"
+declare -r CACHE_PATH="${2}"
+declare -r DEPS_PATH="${3}"
+declare -r INDEX=${4}
+
+declare -r BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+
+source "${BUILDPACK_DIR}/envrc"
+
+declare -r PROFILE_PATH="${BUILD_PATH}/.profile.d"
+
+
+install_grafana(){
+    declare -r DOWNLOAD_FILE="${CACHE_PATH}/${GRAFANA_FILE_NAME}"
+    status "Installing Grafana ${VERSION}"
+    tar -zxf "${DOWNLOAD_FILE}"  --strip-component=1 -C "${BUILD_PATH}"
+    cp -f "${BUILDPACK_DIR}/deps/defaults.ini" "${BUILD_PATH}/conf/"
+}
+
+install_grafana_plugins(){
+    declare -r PLUGINS_LIST="${BUILD_PATH}/plugins.txt"
+    if [ -f "${PLUGINS_LIST}" ]
+    then 
+        for plugin in $(cat "${PLUGINS_LIST}")
+        do
+            if [ ! -z "${plugin}"]
+            then
+                status "Installing ${plugin}"
+                exec "${BUILD_PATH}/bin/grafana-cli --pluginsDir ${BUILD_PATH}/data/plugin plugins install $plugin"
+            fi
+        done
+    else 
+        status "No Plugins to install"
+    fi
+}
+
+set_profile(){
+    status "Setting app profile"
+    [[ -d "${PROFILE_PATH}" ]] || mkdir -p "${PROFILE_PATH}"
+    cp "${BUILDPACK_DIR}/deps/env.sh" "${PROFILE_PATH}/"
+    chmod +x "${PROFILE_PATH}/env.sh"
+   
+}
+
+main(){
+    install_grafana
+    install_grafana_plugins
+    set_profile
+}
+
+main

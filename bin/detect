@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+declare -r BUILD_PATH="${1}"
+echo "Accept all buildpacks"
+exit 0

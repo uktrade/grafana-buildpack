@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+declare -r BUILD_PATH="${1}"
+declare -r BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+declare -r BUILD_PATH_GRAFANA_INI="${BUILD_PATH}/grafana.ini"
+
+declare -r GRAFANA_ROOT="${HOME}/app"
+
+declare -r GRAFANA_INI="${GRAFANA_ROOT}/grafana.ini"
+
+declare -x run_command="${GRAFANA_ROOT}/bin/grafana-server -homepath=${GRAFANA_ROOT}"
+
+if [ -f "${BUILD_PATH_GRAFANA_INI}" ]
+then 
+    run_command="${run_command} -config=${GRAFANA_INI}"
+fi
+
+run_command="${run_command} web"
+
+cat <<EOF
+---
+default_process_types:
+  web: "${run_command}"
+EOF
