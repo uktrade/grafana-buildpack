@@ -20,6 +20,8 @@ export_app_env(){
     export ENABLE_ANONYMOUS_ACCESS="${ENABLE_ANONYMOUS_ACCESS:-false}"
     export ANONYMOUS_USER_ROLE="${ANONYMOUS_USER_ROLE:-Viewer}"
     export ANONYMOUS_USER_ORG_NAME="${ANONYMOUS_USER_ORG_NAME:-Main Org.}"
+    export AUTO_ASSIGN_ORG="${AUTO_ASSIGN_ORG:-true}"
+    export AUTO_ASSIGN_ORG_ROLE="${AUTO_ASSIGN_ORG_ROLE:-Viewer}"
 }
 
 export_db_env(){

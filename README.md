@@ -45,6 +45,8 @@ cf v3-push -b https://github.com/uktrade/grafana-buildpack.git
 | $ENABLE_ANONYMOUS_ACCESS| false         |
 | $ANONYMOUS_USER_ROLE    | Viewer        |
 | $ANONYMOUS_USER_ORG_NAME| Main Org.     |
+| $AUTO_ASSIGN_ORG        | true          |
+| $AUTO_ASSIGN_ORG_ROLE   | Viewer        |
 
 ## **Custom Config Files**
 - **runtime.txt**: User can specify the version of Grafana that needs to be installed , current default version is 6.3.5
