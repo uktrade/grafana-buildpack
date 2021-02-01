@@ -1,22 +1,25 @@
 #!/user/bin/env bash
 export_app_env(){
 
-export APP_ROOT="${HOME}"
-export APP_MODE="${APP_MODE:-production}"
-export APP_DATA_DIR="${APP_ROOT}/data"
-export APP_PLUGINS_DIR="${APP_DATA_DIR}/plugins"
-export APP_LOGS_DIR="${APP_DATA_DIR}/log"
+    export APP_ROOT="${HOME}"
+    export APP_MODE="${APP_MODE:-production}"
+    export APP_DATA_DIR="${APP_ROOT}/data"
+    export APP_PLUGINS_DIR="${APP_DATA_DIR}/plugins"
+    export APP_LOGS_DIR="${APP_DATA_DIR}/log"
 
-export APP_PROVISIONING_DIR="${APP_ROOT}/conf/provisioning"
+    export APP_PROVISIONING_DIR="${APP_ROOT}/conf/provisioning"
 
-export DOMAIN=${DOMAIN:-$(jq -r '.uris[0]' <<<"${VCAP_APPLICATION}")}
-export URL="${URL:-https://${DOMAIN}}"
+    export DOMAIN=${DOMAIN:-$(jq -r '.uris[0]' <<<"${VCAP_APPLICATION}")}
+    export URL="${URL:-https://${DOMAIN}}"
 
-export ADMIN_USER="${ADMIN_USER:-admin}"
-export ADMIN_PASS="${ADMIN_PASS:-admin}"
-export SECRET_KEY=${SECRET_KEY:-$(jq -r '.space_id' <<<"${VCAP_APPLICATION}")}
-export APP_LOG_MODE="${APP_LOG_MODE:-console}"
+    export ADMIN_USER="${ADMIN_USER:-admin}"
+    export ADMIN_PASS="${ADMIN_PASS:-admin}"
+    export SECRET_KEY=${SECRET_KEY:-$(jq -r '.space_id' <<<"${VCAP_APPLICATION}")}
+    export APP_LOG_MODE="${APP_LOG_MODE:-console}"
 
+    export ENABLE_ANONYMOUS_ACCESS="${ENABLE_ANONYMOUS_ACCESS:-false}"
+    export ANONYMOUS_USER_ROLE="${ANONYMOUS_USER_ROLE:-Viewer}"
+    export ANONYMOUS_USER_ORG_NAME="${ANONYMOUS_USER_ORG_NAME:-Main Org.}"
 }
 
 export_db_env(){
